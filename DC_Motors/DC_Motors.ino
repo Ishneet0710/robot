@@ -1,26 +1,48 @@
+const int FL_FwdPin = A4;
+const int FL_BwdPin = A5;
+const int BL_FwdPin = 13;
+const int BL_BwdPin = 12;
+const int L_EN = 5;
+const int FR_FwdPin = A3;
+const int FR_BwdPin = A2;
+const int BR_FwdPin = A1;
+const int BR_BwdPin = A0;
+const int R_EN = 6;
 
-int motor1pin1 = 2;
-int motor1pin2 = 3;
-int motor2pin1 = 4;
-int motor2pin2 = 5;    
+
+void leftFwd() {
+  digitalWrite(FL_FwdPin, HIGH);
+  digitalWrite(FL_BwdPin, LOW);
+  digitalWrite(BL_FwdPin, HIGH);
+  digitalWrite(BL_BwdPin, LOW);
+}
+
+
+
+void rightFwd() {
+  digitalWrite(FR_FwdPin, HIGH);
+  digitalWrite(FR_BwdPin, LOW);
+  digitalWrite(BR_FwdPin, HIGH);
+  digitalWrite(BR_BwdPin, LOW);
+}
+
+
 
 void setup() {
-  pinMode(motor1pin1, OUTPUT);
-  pinMode(motor1pin2, OUTPUT);
-  pinMode(motor2pin1, OUTPUT);
-  pinMode(motor2pin2, OUTPUT);  
+  pinMode(FL_FwdPin, OUTPUT);
+  pinMode(FL_BwdPin, OUTPUT);
+  pinMode(BL_FwdPin, OUTPUT);
+  pinMode(BL_BwdPin, OUTPUT);
+  pinMode(L_EN, OUTPUT);
+  pinMode(FR_FwdPin, OUTPUT);
+  pinMode(FR_BwdPin, OUTPUT);
+  pinMode(BR_FwdPin, OUTPUT);
+  pinMode(BR_BwdPin, OUTPUT);
+  pinMode(R_EN, OUTPUT);
 }
+
+
 void loop() {
-  digitalWrite(motor1pin1, HIGH);
-  digitalWrite(motor1pin2, LOW);
-
-  digitalWrite(motor2pin1, HIGH);
-  digitalWrite(motor2pin2, LOW);
-  
-
-  digitalWrite(motor1pin1, LOW);
-  digitalWrite(motor1pin2, HIGH);
-
-  digitalWrite(motor2pin1, LOW);
-  digitalWrite(motor2pin2, HIGH);
+  leftFwd();
+  rightFwd();
 }
