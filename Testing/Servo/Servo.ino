@@ -11,10 +11,10 @@ void setup() {
 void loop() {
   for (pos = 0; pos <= 90; pos += 1) { 
     myservo.write(pos);              
-    delay(15);                       
+    delay(5);                       
   }
   for (pos = 90; pos >= 0; pos -= 1) { 
     myservo.write(pos);              
-    delay(15);                       
+    delay(5);                       
   }
 }
