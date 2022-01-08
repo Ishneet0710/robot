@@ -30,7 +30,7 @@ void reset_scoop(int sugma){
 void scoop_ball(int alfa){
   for (int i = 0; i < 11; ++i){
     scoop.write(i*10);
-    delay(47+3*i);
+    delay(40+3*i);
   }
   delay(alfa);
   return;
@@ -98,7 +98,7 @@ void setup() {
   pinMode(motor4pin2, OUTPUT);
   //forward(1000);
   delay(2000);
-  for (int i = 0; i < 2; ++i){//change to 3 later
+  for (int i = 0; i < 3; ++i){
     forward();
     delay(2000);
     please_stop_i_want_to_die();
