@@ -37,7 +37,7 @@ void scoop_ball(int alfa){
 }
 
 void trigger_backdoor(int bita){
-  backdoor.write(87);
+  backdoor.write(84);
   delay(bita);
   return;
 }
