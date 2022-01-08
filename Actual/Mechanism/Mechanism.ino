@@ -102,7 +102,7 @@ void setup() {
     forward();
     delay(2000);
     please_stop_i_want_to_die();
-    delay(500);
+    //delay(500);
     scoop_ball(2000);
     reset_scoop(1500);
     }
