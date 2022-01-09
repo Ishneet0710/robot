@@ -91,30 +91,40 @@ void reset_backdoor(int gahma){
 }
 
 void forward(int a) {
+  analogWrite(L_EN, 255);
+  analogWrite(R_EN, 255);
   leftFwd();
   rightBwd();
   delay(a);
 }
 
 void backward(int b) {
+  analogWrite(L_EN, 255);
+  analogWrite(R_EN, 255);
   leftBwd();
   rightFwd();
   delay(b);
 }
 
 void right(int c){
+  analogWrite(L_EN, 255);
+  analogWrite(R_EN, 255);
   leftBwd();
   rightBwd();
   delay(c); //takes about 825ms to turn 90 degrees
 }
 
 void left(int d){
+  analogWrite(L_EN, 255);
+  analogWrite(R_EN, 255);
   leftFwd();
   rightFwd();
   delay(d); //takes about 825ms to turn 90 degrees
 }
 
 void please_stop_i_want_to_die(){
+  analogWrite(L_EN, 255);
+  analogWrite(R_EN, 255);
   leftStop();
   rightStop();
 }

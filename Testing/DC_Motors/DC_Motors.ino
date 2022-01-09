@@ -17,6 +17,19 @@ void leftFwd() {
   digitalWrite(BL_BwdPin, LOW);
 }
 
+void leftBwd() {
+  digitalWrite(FL_FwdPin, LOW);
+  digitalWrite(FL_BwdPin, HIGH);
+  digitalWrite(BL_FwdPin, LOW);
+  digitalWrite(BL_BwdPin, HIGH);
+}
+
+void leftStop() {
+  digitalWrite(FL_FwdPin, LOW);
+  digitalWrite(FL_BwdPin, LOW);
+  digitalWrite(BL_FwdPin, LOW);
+  digitalWrite(BL_BwdPin, LOW);
+}
 
 
 void rightFwd() {
@@ -26,7 +39,19 @@ void rightFwd() {
   digitalWrite(BR_BwdPin, LOW);
 }
 
+void rightBwd() {
+  digitalWrite(FR_FwdPin, LOW);
+  digitalWrite(FR_BwdPin, HIGH);
+  digitalWrite(BR_FwdPin, LOW);
+  digitalWrite(BR_BwdPin, HIGH);
+}
 
+void rightStop() {
+  digitalWrite(FR_FwdPin, LOW);
+  digitalWrite(FR_BwdPin, LOW);
+  digitalWrite(BR_FwdPin, LOW);
+  digitalWrite(BR_BwdPin, LOW);
+}
 
 void setup() {
   pinMode(FL_FwdPin, OUTPUT);
@@ -43,6 +68,8 @@ void setup() {
 
 
 void loop() {
+  analogWrite(L_EN, 255);
+  analogWrite(R_EN, 255);
   leftFwd();
-  rightFwd();
+  rightBwd();
 }

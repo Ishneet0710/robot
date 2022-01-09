@@ -75,16 +75,14 @@ void loop() {
   //rotate forward. Speed of both sides will be calculated
   //with the "speed_Check" function.
   if (c2 >= 1000 and c2 < 1450) {
-    leftBwd();
-    rightBwd();
+    backward();
     Dir = false;
     speed_Check(Dir, c2, c1, 1450, 1000);
   }
   //If the left stick is pushed up, wheels on both sides
   //will rotate backwards.
   else if (c2 <= 2000 and c2 > 1550) {
-    leftFwd();
-    rightFwd();
+    forward();
     Dir = true;
     speed_Check(Dir, c2, c1, 1550, 2000);
   }
@@ -94,22 +92,19 @@ void loop() {
     //backwards, while the right wheel will rotate forward.
     //Rotation speed will be calculated using "rotate" function.
     if (c1 >= 1000 and c1 < 1450) {
-      leftBwd();
-      rightFwd();
+      left();
       rotate(c1, 1450, 1000);
     }
     //If the right stick is pushed right,left wheel will rotate
     //forward, while the right wheel will rotate backwards.
     else if (c1 <= 2000 and c1 > 1550) {
-      leftFwd();
-      rightBwd();
+      right();
       rotate(c1, 1550, 2000);
     }
     //If the right stick is stationary (in the middle),
     //stop the robot from moving
     else {
-      leftStop();
-      rightStop();
+      stop_moving();
     }
   }
 
