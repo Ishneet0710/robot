@@ -4,8 +4,8 @@
 
 //Instantiate servo motor objects, names can be changed
 //Servo servo_Name;
-Servo BL_Servo;
-Servo BR_Servo;
+Servo backdoor;
+Servo scoop;
 
 //Global Pins Assignment for motor pins, and motor enable pins
 //IN1-IN4 pins can be connected to both digital and analog pins
@@ -40,8 +40,8 @@ bool Dir = true; //Forward = true, Backward = false
 void setup() {
   //Assign servo motors to pins, can be any digital pins
   //ServoName.attach(pin_Number);
-  BL_Servo.attach(9);
-  BR_Servo.attach(10);
+  Scoop.attach(11);
+  Backdoor.attach(10);
 
   //Setting the L298N pins as output pins
   //pinMode(pin_Name, OUTPUT);
@@ -70,6 +70,9 @@ void loop() {
   //int channel_Name = readChannel(channel_Number);
   int c1 = readChannel(1);
   int c2 = readChannel(2);
+  int c3 = readChannel(3);
+  int c4 = readChannel(4);
+
 
   //If the left stick is pushed down, wheels on both sides will
   //rotate forward. Speed of both sides will be calculated
@@ -109,6 +112,18 @@ void loop() {
   }
 
   //INSERT GRIPPER CODE HERE
+  if(c3 <= 1100){
+    Backdoor.write(0);
+  }
+  else if(c3 > 1000){
+    Backdoor.write(84);
+  }
+  if(c4 <= 1100){
+    Scoop.write(0);
+  }
+  else if(c4 > 1000){
+    Scoop.write(120);
+  }
 
   delay(10);
 }

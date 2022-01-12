@@ -35,6 +35,11 @@ void speed_Check(bool dir, int throttle_Val,int steering_Val, int l_Limit, int r
   analogWrite(R_EN, R_Speed);
 }
 
+
+void arduinoSpeed(int throttle_Val,int steering_Val, int l_Limit, int r_Limit){
+  
+}
+
 void rotate(int rotate_Val, int l_Limit, int r_Limit){
     L_Speed = map(rotate_Val, l_Limit, r_Limit, 127, 255);
     R_Speed = map(rotate_Val, l_Limit, r_Limit, 127, 255);

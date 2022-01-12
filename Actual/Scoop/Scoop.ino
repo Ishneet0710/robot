@@ -1,15 +1,22 @@
 
 #include <Servo.h>
 
-Servo myservo;  
+Servo grey; //left
+Servo black; //right
 
 void setup() {
-  myservo.attach(8);
-  myservo.write(0);
-  delay(5000);
-  myservo.write(120);
+  grey.attach(9);
+  black.attach(11);
+  black.write(80);
+  grey.write(90);
 
+  delay(2000);
+
+  black.write(180);
+  grey.write(0);
+  
 }
 
 void loop() {
+
 }

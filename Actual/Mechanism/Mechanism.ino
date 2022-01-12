@@ -60,18 +60,21 @@ void rightStop() {
 }
 
 
-Servo scoop;  
+Servo scoop1;  
+Servo scoop2;
 Servo backdoor;  
 
 void reset_scoop(int sugma){
-  scoop.write(0);
+  scoop1.write(0);
+  scoop2.write(0);
   delay(sugma);
   return;
 }
 
 void scoop_ball(int alfa){
   for (int i = 0; i < 11; ++i){
-    scoop.write(i*10);
+    scoop1.write(i*10);
+    scoop2.write(i*10);
     delay(40+3*i);
   }
   delay(alfa);
@@ -136,8 +139,10 @@ void setup() {
   Serial.begin(9600);
   backdoor.attach(10);
   backdoor.write(180);
-  scoop.attach(11);
-  scoop.write(0);
+  scoop1.attach(11);
+  scoop2.attach(9);
+  scoop1.write(0);
+  scoop2.write(0);
   pinMode(FL_FwdPin, OUTPUT);
   pinMode(FL_BwdPin, OUTPUT);
   pinMode(BL_FwdPin, OUTPUT);
@@ -151,15 +156,18 @@ void setup() {
   //forward(1000);
   delay(5000);
   for (int i = 0; i < 3; ++i){
-    forward(2000);
+    forward(1000);
     please_stop_i_want_to_die();
+    left(700)
+    foward(500)
     //delay(500);
     scoop_ball(2000);
     reset_scoop(1500);
     }
+    backward(3500);
     trigger_backdoor(3000);
     reset_backdoor(500);
-    forward(2000);
+    
     please_stop_i_want_to_die();
 }
 
