@@ -36,8 +36,9 @@ void speed_Check(bool dir, int throttle_Val,int steering_Val, int l_Limit, int r
 }
 
 
-void arduinoSpeed(int throttle_Val,int steering_Val, int l_Limit, int r_Limit){
-  
+void arduinoSpeed(int throttle_Val,int l_Limit, int r_Limit, Servo servo){
+  arduinoAngle = map(throttle_Val, l_Limit, r_Limit, 0, 180);
+  servo.write(arduinoAngle);
 }
 
 void rotate(int rotate_Val, int l_Limit, int r_Limit){

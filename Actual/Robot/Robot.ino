@@ -5,7 +5,8 @@
 //Instantiate servo motor objects, names can be changed
 //Servo servo_Name;
 Servo backdoor;
-Servo scoop;
+Servo scoop_grey;
+Servo scoop_black;
 
 //Global Pins Assignment for motor pins, and motor enable pins
 //IN1-IN4 pins can be connected to both digital and analog pins
@@ -72,7 +73,7 @@ void loop() {
   int c2 = readChannel(2);
   int c3 = readChannel(3);
   int c4 = readChannel(4);
-
+  int c5 = readChannel(5);
 
   //If the left stick is pushed down, wheels on both sides will
   //rotate forward. Speed of both sides will be calculated
@@ -95,13 +96,13 @@ void loop() {
     //backwards, while the right wheel will rotate forward.
     //Rotation speed will be calculated using "rotate" function.
     if (c1 >= 1000 and c1 < 1450) {
-      left();
+      right();
       rotate(c1, 1450, 1000);
     }
     //If the right stick is pushed right,left wheel will rotate
     //forward, while the right wheel will rotate backwards.
     else if (c1 <= 2000 and c1 > 1550) {
-      right();
+      left();
       rotate(c1, 1550, 2000);
     }
     //If the right stick is stationary (in the middle),
@@ -112,18 +113,45 @@ void loop() {
   }
 
   //INSERT GRIPPER CODE HERE
-  if(c3 <= 1100){
-    Backdoor.write(0);
+  //if right stick push down backdoor move
+  if (c4 >= 1000 and c4 < 1450) {
+    arduinoSpeed(c4, 1450, 1000, backdoor);
   }
-  else if(c3 > 1000){
-    Backdoor.write(84);
+  //If the left stick is pushed up scoop go up
+  else if (c4 <= 2000 and c4 > 1550) {
+    arduinoSpeed(c4, 1550, 2000, scoop_grey);
+    arduinoSpeed(c4, 1550, 2000, scoop_black);
   }
-  if(c4 <= 1100){
-    Scoop.write(0);
+  //If the right stick is stationary (in the middle),
+  //reset all scoops
+  else {
+    backdoor.write(90);
+    scoop_grey.write(0);
+    scoop_black.write(180);
+   }
+
+
+  //automation code
+
+  if(c5 <=1100){
+    //automation code go here
   }
-  else if(c4 > 1000){
-    Scoop.write(120);
-  }
+
+
+
+  //incase mapping no work then we die
+  //if(c3 <= 1100){
+    //Backdoor.write(0);
+  //}
+  //else if(c3 > 1000){
+    //Backdoor.write(84);
+  //}
+  //if(c4 <= 1100){
+    //Scoop.write(0);
+  //}
+  //else if(c4 > 1000){
+    //Scoop.write(120);
+  //}
 
   delay(10);
 }
