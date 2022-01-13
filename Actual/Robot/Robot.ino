@@ -22,6 +22,9 @@ const int FR_BwdPin = A2;
 const int BR_FwdPin = A1;
 const int BR_BwdPin = A0;
 const int R_EN = 6;
+const int IRLeft = 7;
+const int IRight = 8;
+
 
 //Controller settings, do not change
 byte interruptPin = 3;
@@ -41,8 +44,9 @@ bool Dir = true; //Forward = true, Backward = false
 void setup() {
   //Assign servo motors to pins, can be any digital pins
   //ServoName.attach(pin_Number);
-  Scoop.attach(11);
-  Backdoor.attach(10);
+  scoop_grey.attach(9);
+  scoop_black.attach(11);
+  backdoor.attach(10);
 
   //Setting the L298N pins as output pins
   //pinMode(pin_Name, OUTPUT);
@@ -56,6 +60,8 @@ void setup() {
   pinMode(BR_FwdPin, OUTPUT);
   pinMode(BR_BwdPin, OUTPUT);
   pinMode(R_EN, OUTPUT);
+  pinMode(IRLeft, INPUT);
+  pinMode(IRight, INPUT);
 
   //Start serial comm for troubleshooting through serial monitor
   //Serial.begin(baud rate);
@@ -74,84 +80,78 @@ void loop() {
   int c3 = readChannel(3);
   int c4 = readChannel(4);
   int c5 = readChannel(5);
+  int value_s1 = digitalRead(IRLeft); //left
+  int value_s2 = digitalRead(IRight); //right
 
-  //If the left stick is pushed down, wheels on both sides will
-  //rotate forward. Speed of both sides will be calculated
-  //with the "speed_Check" function.
-  if (c2 >= 1000 and c2 < 1450) {
-    backward();
-    Dir = false;
-    speed_Check(Dir, c2, c1, 1450, 1000);
-  }
-  //If the left stick is pushed up, wheels on both sides
-  //will rotate backwards.
-  else if (c2 <= 2000 and c2 > 1550) {
-    forward();
-    Dir = true;
-    speed_Check(Dir, c2, c1, 1550, 2000);
-  }
-  //If the left stick is stationary (in the middle)
-  else {
-    //If the right stick is pushed left, left wheel will rotate
-    //backwards, while the right wheel will rotate forward.
-    //Rotation speed will be calculated using "rotate" function.
-    if (c1 >= 1000 and c1 < 1450) {
-      right();
-      rotate(c1, 1450, 1000);
-    }
-    //If the right stick is pushed right,left wheel will rotate
-    //forward, while the right wheel will rotate backwards.
-    else if (c1 <= 2000 and c1 > 1550) {
-      left();
-      rotate(c1, 1550, 2000);
-    }
-    //If the right stick is stationary (in the middle),
-    //stop the robot from moving
-    else {
-      stop_moving();
-    }
-  }
-
-  //INSERT GRIPPER CODE HERE
-  //if right stick push down backdoor move
-  if (c4 >= 1000 and c4 < 1450) {
-    arduinoSpeed(c4, 1450, 1000, backdoor);
-  }
-  //If the left stick is pushed up scoop go up
-  else if (c4 <= 2000 and c4 > 1550) {
-    arduinoSpeed(c4, 1550, 2000, scoop_grey);
-    arduinoSpeed(c4, 1550, 2000, scoop_black);
-  }
-  //If the right stick is stationary (in the middle),
-  //reset all scoops
-  else {
-    backdoor.write(90);
-    scoop_grey.write(0);
-    scoop_black.write(180);
-   }
-
-
-  //automation code
 
   if(c5 <=1100){
-    //automation code go here
+    //automation activated
+    if(value_s1 == HIGH and value_s2 == HIGH){
+      stop_moving();
+      analogWrite(L_EN, 0);
+      analogWrite(R_EN, 0);
+    }
+    else if(value_s1 == LOW and value_s2 == LOW){
+      forward();
+      analogWrite(L_EN, 200);
+      analogWrite(R_EN, 200);
+    }
+    else if(value_s1 == HIGH and value_s2 == LOW){
+      left();
+      analogWrite(L_EN, 150);
+      analogWrite(R_EN, 200);      
+      delay(100);
+    }
+    else if(value_s1 == LOW and value_s2 == HIGH){
+      right();
+      analogWrite(L_EN, 200);
+      analogWrite(R_EN, 150);      
+      delay(100);
+    }
+    else{
+      stop_moving();
+      analogWrite(L_EN, 0);
+      analogWrite(R_EN, 0);
+    }
   }
+  else if(c5 > 1000){
+    //manual activated
+    if (c2 >= 1000 and c2 < 1450) {
+      backward();
+      Dir = false;
+      speed_Check(Dir, c2, c1, 1450, 1000);
+    }
+    else if (c2 <= 2000 and c2 > 1550) {
+      forward();
+      Dir = true;
+      speed_Check(Dir, c2, c1, 1550, 2000);
+    }
+    else {
+      if (c1 >= 1000 and c1 < 1450) {
+        right();
+        rotate(c1, 1450, 1000);
+      }
+      else if (c1 <= 2000 and c1 > 1550) {
+        left();
+        rotate(c1, 1550, 2000);
+      }
+      else {
+        stop_moving();
+      }
+    }
 
-
-
-  //incase mapping no work then we die
-  //if(c3 <= 1100){
-    //Backdoor.write(0);
-  //}
-  //else if(c3 > 1000){
-    //Backdoor.write(84);
-  //}
-  //if(c4 <= 1100){
-    //Scoop.write(0);
-  //}
-  //else if(c4 > 1000){
-    //Scoop.write(120);
-  //}
-
+    if (c4 >= 1000 and c4 < 1450) {
+      arduinoSpeedBackdoor(c4, 1450, 1000, backdoor);
+    }
+    else if (c4 <= 2000 and c4 > 1550) {
+      arduinoSpeedGrey(c4, 1550, 2000, scoop_grey);
+      arduinoSpeedBlack(c4, 1550, 2000, scoop_black);
+    }
+    else {
+      backdoor.write(90);
+      scoop_grey.write(0);
+      scoop_black.write(180);
+    }
+  }
   delay(10);
 }
