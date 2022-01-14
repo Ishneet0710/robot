@@ -22,8 +22,7 @@ const int FR_BwdPin = A2;
 const int BR_FwdPin = A1;
 const int BR_BwdPin = A0;
 const int R_EN = 6;
-const int IRLeft = 7;
-const int IRight = 8;
+
 
 
 //Controller settings, do not change
@@ -60,8 +59,7 @@ void setup() {
   pinMode(BR_FwdPin, OUTPUT);
   pinMode(BR_BwdPin, OUTPUT);
   pinMode(R_EN, OUTPUT);
-  pinMode(IRLeft, INPUT);
-  pinMode(IRight, INPUT);
+
 
   //Start serial comm for troubleshooting through serial monitor
   //Serial.begin(baud rate);
@@ -80,42 +78,12 @@ void loop() {
   int c3 = readChannel(3);
   int c4 = readChannel(4);
   int c5 = readChannel(5);
-  int value_s1 = digitalRead(IRLeft); //left
-  int value_s2 = digitalRead(IRight); //right
-
-
-  if(c5 <=1100){
-    //automation activated
-    if(value_s1 == HIGH and value_s2 == HIGH){
-      stop_moving();
-      analogWrite(L_EN, 0);
-      analogWrite(R_EN, 0);
-    }
-    else if(value_s1 == LOW and value_s2 == LOW){
-      forward();
-      analogWrite(L_EN, 200);
-      analogWrite(R_EN, 200);
-    }
-    else if(value_s1 == HIGH and value_s2 == LOW){
-      left();
-      analogWrite(L_EN, 150);
-      analogWrite(R_EN, 200);      
-      delay(100);
-    }
-    else if(value_s1 == LOW and value_s2 == HIGH){
-      right();
-      analogWrite(L_EN, 200);
-      analogWrite(R_EN, 150);      
-      delay(100);
-    }
-    else{
-      stop_moving();
-      analogWrite(L_EN, 0);
-      analogWrite(R_EN, 0);
-    }
-  }
-  else if(c5 > 1000){
+  
+  
+  
+  if(c5 > 1000){
     //manual activated
+    //motor 4-wheel drive
     if (c2 >= 1000 and c2 < 1450) {
       backward();
       Dir = false;

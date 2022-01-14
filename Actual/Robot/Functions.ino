@@ -44,7 +44,7 @@ void arduinoSpeedGrey(int throttle_Val,int l_Limit, int r_Limit, Servo servo){
   servo.write(map(throttle_Val, l_Limit, r_Limit, 0, 95));
 }
 void arduinoSpeedBackdoor(int throttle_Val,int l_Limit, int r_Limit, Servo servo){
-  servo.write(map(throttle_Val, l_Limit, r_Limit, 90, -10));
+  servo.write(map(throttle_Val, l_Limit, r_Limit, 90, -35));
 }
 
 void rotate(int rotate_Val, int l_Limit, int r_Limit){
@@ -126,7 +126,13 @@ void stop_moving(){
   rightStop();
 }
 
-
+void forward_auto() {
+  analogWrite(L_EN, 255);
+  analogWrite(R_EN, 255);
+  leftFwd();
+  rightBwd();
+  delay(3784);
+}
 
 int readChannel(int channelNumber) {
   unsigned value = ppm.latestValidChannelValue(channelNumber, 0);
